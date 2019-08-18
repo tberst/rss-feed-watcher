@@ -14,7 +14,7 @@ namespace EzTvWatcher.Test
         {
             this._item = new RssItem();
             _item.title = "The Kitchen S22E02 Fun Family Favorites 480p x264-mSD";
-            _item.pubDate = DateTimeOffset.Now;
+            _item.pubDate = DateTimeOffset.Now.ToString();
         }
         [SetUp]
         public void Setup()

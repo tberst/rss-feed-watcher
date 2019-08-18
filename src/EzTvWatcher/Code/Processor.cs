@@ -39,9 +39,9 @@ namespace EzTvWatcher.Code
                     mailbody.AppendLine(item.GetMailBody());
                     plaintext.AppendLine(item.title);
                 }
-                if (maxCheckedDate < item.pubDate)
+                if (maxCheckedDate < item.pubDateAsDt)
                 {
-                    maxCheckedDate = item.pubDate;
+                    maxCheckedDate = item.pubDateAsDt;
                 }
             }
             _logger.Debug($"found {count} interesting items");

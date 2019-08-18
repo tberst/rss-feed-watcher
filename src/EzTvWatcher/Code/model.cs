@@ -5,19 +5,224 @@ using System.Linq;
 
 namespace EzTvWatcher.Code
 {
+  
+
+
+   
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false,ElementName ="item")]
     public class RssItem
     {
 
-        public string title { get; set; }
+        private string titleField;
 
-        public string guid { get; set; }
+        private string categoryField;
 
-        public DateTimeOffset pubDate { get; set; }
+        private string linkField;
+
+        private string guidField;
+
+        private string pubDateField;
+
+        private uint contentLengthField;
+
+        private string infoHashField;
+
+        private string magnetURIField;
+
+        private byte seedsField;
+
+        private byte peersField;
+
+        private byte verifiedField;
+
+        private string fileNameField;
+
+    
+
+        /// <remarks/>
+        public string title
+        {
+            get
+            {
+                return this.titleField;
+            }
+            set
+            {
+                this.titleField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string category
+        {
+            get
+            {
+                return this.categoryField;
+            }
+            set
+            {
+                this.categoryField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string link
+        {
+            get
+            {
+                return this.linkField;
+            }
+            set
+            {
+                this.linkField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string guid
+        {
+            get
+            {
+                return this.guidField;
+            }
+            set
+            {
+                this.guidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string pubDate
+        {
+            get
+            {
+                return this.pubDateField;
+            }
+            set
+            {
+                this.pubDateField = value;
+            }
+        }
+
+        public DateTimeOffset pubDateAsDt
+        {
+            get
+            {
+                DateTimeOffset dt;
+                if (DateTimeOffset.TryParse(this.pubDate,out dt))
+                {
+                    return dt;
+                }
+                return DateTimeOffset.MinValue;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public uint contentLength
+        {
+            get
+            {
+                return this.contentLengthField;
+            }
+            set
+            {
+                this.contentLengthField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public string infoHash
+        {
+            get
+            {
+                return this.infoHashField;
+            }
+            set
+            {
+                this.infoHashField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public string magnetURI
+        {
+            get
+            {
+                return this.magnetURIField;
+            }
+            set
+            {
+                this.magnetURIField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public byte seeds
+        {
+            get
+            {
+                return this.seedsField;
+            }
+            set
+            {
+                this.seedsField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public byte peers
+        {
+            get
+            {
+                return this.peersField;
+            }
+            set
+            {
+                this.peersField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public byte verified
+        {
+            get
+            {
+                return this.verifiedField;
+            }
+            set
+            {
+                this.verifiedField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
+        public string fileName
+        {
+            get
+            {
+                return this.fileNameField;
+            }
+            set
+            {
+                this.fileNameField = value;
+            }
+        }
 
         public bool IsOfInterest(List<String> interestList, DateTimeOffset dt)
         {
             bool result = false;
-            if (this.pubDate > dt)
+            if (this.pubDateAsDt > dt)
             {
                 foreach (string interest in interestList)
                 {
@@ -37,10 +242,13 @@ namespace EzTvWatcher.Code
 
         public string GetMailBody()
         {
-            return $"<a href='{this.guid}'>{this.title}</a><br/>";
+            return $"<a href='{this.guid}'>{this.title}</a> - <a href='{this.magnetURI}'>MAGNET</a><br/>";
         }
 
     }
+
+  
+
 
     public class GoogleApiConfig
     {

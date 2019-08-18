@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Linq;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace EzTvWatcher.Code
 {
@@ -34,9 +36,19 @@ namespace EzTvWatcher.Code
                 {
                     if (feedReader.ElementType == Microsoft.SyndicationFeed.SyndicationElementType.Item)
                     {
-                        ISyndicationItem item = await feedReader.ReadItem();
+                        var xmlStr = await feedReader.ReadElementAsString();
+                     
+                        XmlSerializer deserializer = new XmlSerializer(typeof(RssItem));
+                        using (TextReader reader = new StringReader(xmlStr))
+                        {
+                           var xmlitem = (RssItem)deserializer.Deserialize(reader);
+                            rssNewsItems.Add(xmlitem);
+                        }
+                     
+
                         
-                        rssNewsItems.Add(item.ConvertToNewsItem());
+                        
+                      
                     }
                 }
             }
@@ -47,10 +59,10 @@ namespace EzTvWatcher.Code
     //Extension Methods for converting a ISyndicationItem to a NewsItem
     public static class SyndicationExtensions
     {
-        public static RssItem ConvertToNewsItem(this ISyndicationItem item)
-        {
-            return new RssItem() { title = item.Title, pubDate = item.Published,guid = item.Id };
-        }
+        //public static RssItem ConvertToNewsItem(this ISyndicationItem item)
+        //{
+        //    return new RssItem() { title = item.Title, pubDate = item.Published, guid = item.Id };
+        //}
     }
 
     //String extension methods for converting HtmlToPlainTest
@@ -74,7 +86,7 @@ namespace EzTvWatcher.Code
             return text.Substring(0, end + 1);
         }
 
-       
+
         public static string HtmlToPlainText(this string html)
         {
             const string tagWhiteSpace = @"(>|$)(\W|\n|\r)+<";//matches one or more (white space or line breaks) between '>' and '<'
