@@ -27,7 +27,7 @@ namespace EzTvWatcher.Code
 
         private string pubDateField;
 
-        private uint contentLengthField;
+        private ulong contentLengthField;
 
         private string infoHashField;
 
@@ -123,7 +123,7 @@ namespace EzTvWatcher.Code
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Namespace = "http://xmlns.ezrss.it/0.1/")]
-        public uint contentLength
+        public ulong contentLength
         {
             get
             {
